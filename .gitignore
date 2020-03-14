@@ -1,0 +1,19 @@
+# Geany
+*.geany
+*.geanywb
+
+# divers
+*.blend1
+
+/old
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# GitEye
+target/
+/.project
+*.project

@@ -480,8 +480,14 @@ class CharucoTest(WebcamSettings):
         mtx = np.loadtxt(self.folder + "/calib_mtx_webcam.csv")
         dist = np.loadtxt(self.folder + "/calib_dist_webcam.csv")
         self.sender = Multicast("224.0.0.11", 18888)
-
+        t = time()
+        n = 0
         while 1:
+            n += 1
+            if time() - t > 1:
+                print(n)
+                n = 0
+                t = time()
             ret, frame = self.cap.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             parameters =  aruco.DetectorParameters_create()
@@ -505,7 +511,7 @@ class CharucoTest(WebcamSettings):
             if rvecs is not None and tvecs is not None:
                 data = json.dumps({"rvec": rvecs.tolist(),
                                    "tvec": tvecs.tolist()}).encode("utf-8")
-                print(data)
+                # #print(data)
                 self.sender.send_to(data, ("224.0.0.11", 18888))
 
             if cv2.waitKey(100) == 27:

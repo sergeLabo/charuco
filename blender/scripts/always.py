@@ -49,7 +49,7 @@ def rot_filter():
 def set_rot():
     """ -0.32 0.01 0.48"""
 
-    alpha = gl.rvec[0] + 2.6
+    alpha = -(gl.rvec[0] + 2.6)
     beta = gl.rvec[1]
     gamma = gl.rvec[2] - 0.2
 

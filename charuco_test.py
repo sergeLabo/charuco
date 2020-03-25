@@ -489,7 +489,10 @@ class CharucoTest(WebcamSettings):
                 n = 0
                 t = time()
             ret, frame = self.cap.read()
+
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # #gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+
             parameters =  aruco.DetectorParameters_create()
             corners, ids, rejectedImgPoints = aruco.detectMarkers(
                                                       gray,
@@ -539,64 +542,3 @@ if __name__ == "__main__":
     # #ct.calibration_test()
     # #ct.translation_rotation_test()
     ct.detect_one_real_marker()
-
-
-"""
-data = pd.DataFrame(data=tvecs.reshape(43, 3), columns=["tx","ty","tz"],
-                  index=ids.flatten())
-data.index.name = "makers"
-data.sort_index(inplace=True)
-print("data =", data)
-
-p = data.values
-((p[1]-p[0])**2.).sum()**.5,((p[2]-p[1])**2.).sum()**.5,((p[3]-p[2])**2.).sum()**.5
-
-((data.loc[11]-data.loc[0]).values**2).sum()
-
-V0_1= p[1]-p[0]
-V0_11=p[11]-p[0]
-
-print("V0_1 =", V0_1, "V0_11 =", V0_11)
-print("np.dot(V0_1, V0_11) =", np.dot(V0_1, V0_11))
-
-fig=plt.figure()
-ax= fig.add_subplot(1, 1, 1)
-ax.set_aspect("equal")
-plt.plot(data.tx[:10], data.ty[:10], "or-")
-plt.grid()
-plt.show()
-print("data.tx =", data.tx)
-
-corners = np.array(corners)
-# pd = panda
-data2 = pd.DataFrame({"px":corners[:,0,0,1],
-                      "py":corners[:,0,0,0]},
-                       index=ids.flatten())
-data2.sort_index(inplace=True)
-print("data2 =", data2)
-
-n0 = data2.loc[0]
-n1 = data2.loc[1]
-d01 = ((n0-n1).values**2).sum()**.5
-d = 42.5e-3
-factor = d/d01
-data2["x"] = data2.px * factor
-data2["y"] = data2.py * factor
-d1_0 = data2.loc[2].y - data2.loc[1].y
-d11_0 = data2.loc[11].x - data2.loc[0].x
-print("d1_0 =", d1_0)
-print("d11_0 =", d11_0)
-
-dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-board = cv2.aruco.CharucoBoard_create(3, 3, .025, .0125, dictionary)
-img = board.draw((200*3, 200*3))
-cv2.imwrite(self.folder + '/charuco_test.png',img)
-
-help(aruco)
-charucoCorners = allCorners, charucoIds=allIds, board=board,
-                 imageSize=imsize, cameraMatrix=cameraMatrixInit,
-                 distCoeffs=distCoeffsInit, flags=flags,
-                 criteria=(cv2.TERM_CRITERIA_EPS &\
-                 cv2.TERM_CRITERIA_COUNT, 10000, 1e-9)
-help (aruco.calibrateCameraCharucoExtended)
-"""
